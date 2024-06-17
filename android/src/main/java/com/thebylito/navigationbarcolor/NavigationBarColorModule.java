@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.WindowInsetsController;
 import androidx.annotation.UiThread;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
