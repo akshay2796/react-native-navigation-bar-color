@@ -43,16 +43,33 @@ public class NavigationBarColorModule extends ReactContextBaseJavaModule {
         reactContext = context;
     }
 
-    public void setNavigationBarTheme(Activity activity, Boolean light) {
+     public void setNavigationBarTheme(Activity activity, Boolean light) {
         if (activity != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Window window = activity.getWindow();
-            int flags = window.getDecorView().getSystemUiVisibility();
-            if (light) {
-                flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
-            } else {
-                flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+                int flags = window.getDecorView().getSystemUiVisibility();            
+                if (light) {
+                    flags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                } else {
+                    flags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                }
+                window.getDecorView().setSystemUiVisibility(flags);
+            } 
+            else {
+                WindowInsetsController insetsController = window.getInsetsController();
+                if (light) {
+                    insetsController.setSystemBarsAppearance(
+                        WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS,
+                        WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                    );
+                }
+                else {
+                    insetsController.setSystemBarsAppearance(
+                        0,
+                        WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+                    );
+                }
             }
-            window.getDecorView().setSystemUiVisibility(flags);
         }
     }
 
